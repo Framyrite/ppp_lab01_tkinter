@@ -9,7 +9,6 @@ class App:
 
     def __init__(self):
         """Создаёт главное окно и компоненты приложения."""
-
         self.root = tk.Tk()
 
         self.root.title("Лабораторная работа №1")
@@ -30,29 +29,62 @@ class App:
         # Создаём математическую модель
         self.model = AnimationModel()
 
-        # Создаём объект для отрисовки
+        # Создаём объект отрисовки
         self.renderer = CircleRenderer(self.canvas)
-
-        # Рисуем окружность и точку
         self.renderer.draw()
+
+        # Подключаем управление с клавиатуры
+        self.root.bind("<space>", self.toggle_pause)
+        self.root.bind("<Right>", self.increase_speed)
+        self.root.bind("<Left>", self.decrease_speed)
+        self.root.bind("<r>", self.reverse_direction)
+
+        self.update_title()
+
+    def update_title(self):
+        """Обновляет заголовок окна с информацией об анимации."""
+        speed = abs(self.model.speed)
+
+        if self.model.paused:
+            status = "Пауза"
+        else:
+            status = "Движение"
+
+        self.root.title(
+            f"Лабораторная №1 | Скорость: {speed:.2f} | {status}"
+        )
+
+    def toggle_pause(self, event):
+        """Останавливает или возобновляет анимацию."""
+        self.model.toggle_pause()
+        self.update_title()
+
+    def increase_speed(self, event):
+        """Увеличивает скорость движения."""
+        self.model.change_speed(0.01)
+        self.update_title()
+
+    def decrease_speed(self, event):
+        """Уменьшает скорость движения."""
+        self.model.change_speed(-0.01)
+        self.update_title()
+
+    def reverse_direction(self, event):
+        """Изменяет направление движения точки."""
+        self.model.reverse_direction()
+        self.update_title()
 
     def animate(self):
         """Обновляет положение точки и запускает следующий кадр."""
-
-        # Обновляем положение точки
         self.model.update()
 
-        # Получаем новые координаты
         x, y = self.model.get_position()
 
-        # Перемещаем точку
         self.renderer.move_point(x, y)
 
-        # Запускаем следующий кадр через 16 миллисекунд
         self.root.after(16, self.animate)
 
     def run(self):
-        """Запускает приложение и анимацию."""
-
+        """Запускает приложение."""
         self.animate()
         self.root.mainloop()

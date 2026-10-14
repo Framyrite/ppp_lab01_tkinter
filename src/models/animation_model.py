@@ -12,11 +12,13 @@ class AnimationModel:
 
         self.angle = 0
         self.speed = 0.03
+        self.paused = False
 
     def update(self):
-        """Обновляет угол положения точки."""
-        self.angle += self.speed
-        self.angle %= 2 * math.pi
+        """Обновляет положение точки, если анимация не остановлена."""
+        if not self.paused:
+            self.angle += self.speed
+            self.angle %= 2 * math.pi
 
     def get_position(self):
         """Возвращает текущие координаты точки."""
@@ -24,3 +26,22 @@ class AnimationModel:
         y = self.center_y + self.radius * math.sin(self.angle)
 
         return x, y
+
+    def change_speed(self, delta):
+        """Изменяет скорость, сохраняя направление движения."""
+        direction = 1 if self.speed > 0 else -1
+
+        new_speed = abs(self.speed) + delta
+
+        # Ограничиваем скорость допустимыми значениями
+        new_speed = max(0.01, min(0.20, new_speed))
+
+        self.speed = direction * round(new_speed, 2)
+
+    def reverse_direction(self):
+        """Меняет направление движения точки."""
+        self.speed = -self.speed
+
+    def toggle_pause(self):
+        """Приостанавливает или возобновляет анимацию."""
+        self.paused = not self.paused
