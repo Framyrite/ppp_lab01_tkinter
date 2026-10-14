@@ -1,3 +1,5 @@
+"""Модуль графического интерфейса и управления анимацией."""
+
 import tkinter as tk
 
 from src.models.animation_model import AnimationModel

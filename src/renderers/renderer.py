@@ -1,3 +1,5 @@
+"""Модуль отрисовки окружности и движущейся точки."""
+
 import tkinter as tk
 
 
@@ -15,7 +17,6 @@ class CircleRenderer:
 
     def draw(self):
         """Рисует окружность и точку на ней."""
-
         x = self.center_x
         y = self.center_y
         r = self.radius
@@ -39,6 +40,7 @@ class CircleRenderer:
             fill="red",
             outline="red"
         )
+
     def move_point(self, x, y):
         """Перемещает точку в заданные координаты."""
         r = self.point_radius
