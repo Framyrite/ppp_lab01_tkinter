@@ -1,11 +1,14 @@
 import tkinter as tk
 
+from src.renderers.renderer import CircleRenderer
+
 
 class App:
     """Графическое приложение для анимации точки."""
 
     def __init__(self):
         """Создаёт главное окно и область рисования."""
+
         self.root = tk.Tk()
 
         self.root.title("Лабораторная работа №1")
@@ -21,6 +24,12 @@ class App:
         )
 
         self.canvas.pack(fill="both", expand=True)
+
+        # Создаём объект для рисования
+        self.renderer = CircleRenderer(self.canvas)
+
+        # Рисуем окружность и точку
+        self.renderer.draw()
 
     def run(self):
         """Запускает главный цикл приложения."""
