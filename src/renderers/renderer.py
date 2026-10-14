@@ -39,3 +39,14 @@ class CircleRenderer:
             fill="red",
             outline="red"
         )
+    def move_point(self, x, y):
+        """Перемещает точку в заданные координаты."""
+        r = self.point_radius
+
+        self.canvas.coords(
+            self.point,
+            x - r,
+            y - r,
+            x + r,
+            y + r
+        )
